@@ -13,22 +13,22 @@ Clone down the repo then install the node modules in your terminal:
 
 and install webpack gloabally:
 
-npm install -g webpack
+<strong>npm install -g webpack</strong>
 
 
 Then you need to set up the node server. The server.js file can be found in the server directory:
 
-node server.js
+<strong>node server.js</strong>
 
 
 It is suggested that you install nodemon and run the server through this package:
 
-nodemon server.js
+<strong>nodemon server.js</strong>
 
 After the server is set up, on a new tab in the terminal run webpack (include the -w tag to have webpack monitor any saves to the program)
 
 
-webpack -w
+<strong>webpack -w</strong>
 
 
 Now the app should be running on localhost. The default port is 3000.
