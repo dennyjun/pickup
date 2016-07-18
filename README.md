@@ -8,7 +8,7 @@ Welcome to Pickup. This is a one stop shop for hosting and joining pickup sports
 
 Clone down the repo then install the node modules in your terminal:
 
-npm install
+<strong>npm install</strong>
 
 
 and install webpack gloabally:
