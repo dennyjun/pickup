@@ -15,7 +15,6 @@ and install webpack gloabally:
 
 <strong>npm install -g webpack</strong>
 
-
 Then you need to set up the node server. The server.js file can be found in the server directory:
 
 <strong>node server.js</strong>
