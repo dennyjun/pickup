@@ -1,7 +1,9 @@
-.env
+env
 
 dbConfig.js
 
-node_modules/
+node_modules
 
 pickupsGoogleServerKey.json
+
+client/dist
