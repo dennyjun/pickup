@@ -7,3 +7,7 @@ node_modules
 pickupsGoogleServerKey.json
 
 client/dist
+
+npm-debug.log
+
+.DS_Store
