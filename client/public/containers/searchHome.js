@@ -29,7 +29,6 @@ class SearchHome extends Component {
   };
 
   showNameEntry(event) {
-    console.log(event.target)
     this.setState({
       newPlayerName: ''
     })
@@ -49,7 +48,7 @@ class SearchHome extends Component {
         
         this.props.searchGames[i].joinedPlayers = addedJoinedPlayer;
         
-        this.props.searchGames[i].playersNeeded --;
+        this.props.searchGames[i].maxParticipants--;
         this.props.submitPlayer(this.props.searchGames[i]);
       }
     }
@@ -60,8 +59,7 @@ class SearchHome extends Component {
   }
 
   displayJoinedPlayer(joinedPlayers) {
-  let joinedPlayersArray = JSON.parse(joinedPlayers);
-    return joinedPlayersArray.map((player) => {
+    return joinedPlayers.map((player) => {
       return (
         <li>
           {player}
@@ -70,8 +68,8 @@ class SearchHome extends Component {
     })
   }
 
-  renderAction(playersNeeded) {
-    if(playersNeeded <= 0) {
+  renderAction(maxParticipants) {
+    if(maxParticipants <= 0) {
       return;
     } else {
       return(
@@ -88,6 +86,7 @@ class SearchHome extends Component {
 
   searchedGameCards() {
     return this.props.searchGames.map((game) => {
+      console.log('show', game);
       return(
         <div className="valign-wrapper" data-id={game.id}>
           <div className="valign center-block">
@@ -96,30 +95,30 @@ class SearchHome extends Component {
                   <div className="card-title">
                   <p><strong>ID: </strong>{String.fromCharCode(game.id + 64)}</p>
                     <h4 className="center-align">
-                      {game.sport}
+                      {game.type}
                     </h4>
 
                   </div>
                     <h5 className="left-align">
                       <i className="fa fa-globe fa-lg" aria-hidden="true"></i> 
-                      &nbsp; &nbsp;{game.location}
+                      &nbsp; &nbsp;{game.name}
                     </h5>
                     <h5 className="left-align">
                       <i className="fa fa-calendar" aria-hidden="true"></i> 
                       &nbsp; &nbsp;{moment(game.time).format('MMMM Do YYYY \n h:mm a')}
                     </h5>
                     <h5 className="center-align">
-                      waiting for <strong>{game.playersNeeded}</strong> players
+                      waiting for <strong>{game.maxParticipants}</strong> players
                     </h5>
-                    <h5 className="card-text center-align"><strong>Rules:</strong> {game.rules}</h5>
-                    {this.renderAction(game.playersNeeded)}
+                    <h5 className="card-text center-align"><strong>Rules:</strong> {game.details}</h5>
+                    {this.renderAction(game.maxParticipants)}
                     <p className="left-align">
                       <i className="fa fa-star" aria-hidden="true"></i> 
-                      &nbsp; &nbsp;{game.created_by}
+                      &nbsp; &nbsp;{game.user.name}
                     </p>
                     <ul>
                       <i className="fa fa-users fa-lg" aria-hidden="true"></i> 
-                      <li>{this.displayJoinedPlayer(game.joinedPlayers)}</li>
+                      <li>{this.displayJoinedPlayer(game.participants)}</li>
                     </ul>
                 </div>
 
@@ -133,8 +132,8 @@ class SearchHome extends Component {
     return this.props.searchGames.map((game) => {
       return(
         <Marker
-          lat={game.lat}
-          lng={game.lng}
+          lat={game.location.lat}
+          lng={game.location.lng}
           label={String.fromCharCode(game.id + 64)}
           draggable={false}
           onDragEnd={this.onDragEnd} />

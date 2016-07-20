@@ -5,18 +5,20 @@ import moment from 'moment';
 class GamesListHome extends Component {
 
   renderList() {
+    console.log('renderlist');
     return this.props.getGames.map((game) => {
+      console.log('here', game)
       return (
         <div className="card card-panel hoverable" key={game.id}>
           <div className="card-title">
-            <h3>Game: {game.sport}</h3>
+            <h3>Event: {game.type}</h3>
           </div>
-            <h3 className="left-align">Players Needed: {game.playersNeeded}</h3>
+            <h3 className="left-align">Players Needed: {game.maxParticipants}</h3>
             <h4 className="center-align">Time: {moment(game.time).format('MMMM Do YYYY, h:mm a')}</h4>
-            <h4 className="center-align">Location: {game.location}</h4>
-            <p className="card-text">Rules: {game.rules}</p>
+            <h4 className="center-align">Location: {game.name}</h4>
+            <p className="card-text">Rules: {game.details}</p>
           <div className="card-action">
-            <p className="left-align">Host: {game.created_by}</p>
+            <p className="left-align">Host: {game.user.name}</p>
           </div>
         </div>
       )

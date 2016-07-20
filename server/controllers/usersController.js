@@ -1,12 +1,12 @@
-let Location = require('../models/locationsModel.js');
+let User = require('../models/locationsModel.js');
 let template = require('./controllerTemplate.js');
 
 module.exports = (() => {
-  let locationsController = template.clone({
-    path: '/api/locations'
+  let usersController = template.clone({
+    path: '/api/users'
   });
 
-  let router = locationsController.router;
+  let router = usersController.router;
   router.get('/', (req, res) => {
 
   });
@@ -21,5 +21,5 @@ module.exports = (() => {
   });
 
 
-  return locationsController;
+  return usersController;
 })();
