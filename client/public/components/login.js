@@ -18,7 +18,6 @@ export default class Login extends Component {
   }
 
   render() {
-    console.log("I love lesbians byaaaaa");
     return (
       <div>
         <form onSubmit={this.handleSubmit.bind(this)}>

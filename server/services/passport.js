@@ -2,6 +2,8 @@
 // import user model
 // import config
 // import jwtstrategy
+// import extractjwt
+// import passport-local
 
 // can use a passport strategy to verify a user with JWT or another strategy to verify username and password
 
@@ -11,6 +13,21 @@
 //   secretOrKey: config.secret
 // };
 
+// Create local JWT strategy
+// const localOptions = { usernameField: username };
+// const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
+  // Verify the username and password, call done with the user if correct email and password, otherwise call done with false
+  // User.findOne <--- or equivalent mySQL/sequelize function
+  // User.findOne({ username: username }, (err, user) => {
+//     if(err) {
+//       return done(err);
+//     }
+
+//     if(!user) {
+//       return done(null, false);
+//     }
+//   });
+// });
 
 // Create JWT strategy
 // const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
