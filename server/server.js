@@ -1,41 +1,25 @@
 
-//***********************************Modules**************************************************************************
+//******************************************************************************
+// Modules
 
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
-var path = require('path');
-var request = require('request');
-var pickups = require('./routesPickups.js');
-var players = require('./routesPlayers.js');
-var locations = require('./routesLocations.js');
-//var dotenv = require('dotenv');
+let express = require('express');
+let app = express();
+let bodyParser = require('body-parser');
+let path = require('path');
+let router = require('./router.js');
+let controllers = require('./controllers/controllersRoute.js');
 
 
 //******************************************************************************
 
-//____________________________________CONFIG____________________________________
-
-//dotenv.load();
-
-var port = process.env.PORT || 3000;
-
-
+//______________________________________________________________________________
+// Config
 app.use(bodyParser.json());
 
-app.use(express.static('./client'));
-app.use('/api', pickups);
-app.use('*', express.static(__dirname + '/client'));
-// app.use('/api', locations);
 
-
-
-
-
-// + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
-//CORS
-
-app.use(function(req, res, next) {
+//______________________________________________________________________________
+// CORS
+app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header('Access-Control-Allow-Headers', 
@@ -43,11 +27,19 @@ app.use(function(req, res, next) {
   next();
 });
 
+
 // + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+// Routes
+app.use(express.static(__dirname + '/../client'));
+router(app, controllers).init();
 
-//Boot server -----------------------------------------------------------
+// require('./models/usersModel.js').create({
+//   name: 'denny'
+// });
 
-
+// + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+// Boot server
+let port = process.env.PORT || 3000;
 app.listen(port);
 console.log('Server tuning into Port ' + port);
 
