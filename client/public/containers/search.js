@@ -58,6 +58,7 @@ class Search extends Component {
     })
   }
 
+
 render() {
     return (
       <div className="valign-center">
@@ -72,14 +73,15 @@ render() {
 
           <div>
             <form className="inputBox" onSubmit={this.onLocationSubmit.bind(this)}>
-              <input value={this.state.locationInput} onChange={this.onLocationEnter.bind(this)} type='text' placeholder='Enter a Location'/>
+              <input value={this.state.locationInput} onChange={this.onLocationEnter.bind(this)} type='text' placeholder='Enter City Name'/>
+              <input className="btn red waves-effect waves-light btn valign center-block" value="Search" type="submit" />
+
             </form>   
           </div>
 
           <div>
-            <h5 className="center-align"><strong>Welcome to PickUp! Enter your location to find a game near you!</strong></h5>
+            <h5 className="center-align"><strong>Welcome to PickUp! Enter your location to find a game near <span className="text-capitalize">{this.state.locationInput}</span></strong></h5>
           </div>
-          
         </div>           
       </div>
     )
