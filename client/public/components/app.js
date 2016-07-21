@@ -11,10 +11,13 @@ export default class App extends Component {
         <div className="valign-wrapper">
           <div className="valign center-block">
             <button className="btn waves-effect waves-light btn"><Link to="/Search" className="linkFont">Find</Link></button>
+            <span> </span>
             <button className="btn waves-effect waves-light btn"><Link to="/Add" className="linkFont">Create</Link></button>
           </div>
         </div>
-        {this.props.children}
+
+            {this.props.children}
+
       </div>
     )
   }

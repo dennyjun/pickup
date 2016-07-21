@@ -53,7 +53,6 @@ export function searchEvents(searchObj) {
       }
     })
     .then((response) => {
-      console.log('hello therhe oaifwe;aoiwej;foaiwje;afoiwjef')
       browserHistory.push('/SearchHome');
       dispatch({
         type: SEARCH_EVENTS,
