@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Signup from './signup';
 
 export default class Login extends Component {
 
@@ -17,6 +18,7 @@ export default class Login extends Component {
   }
 
   render() {
+    console.log("I love lesbians byaaaaa");
     return (
       <div>
         <form onSubmit={this.handleSubmit.bind(this)}>
