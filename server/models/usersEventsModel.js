@@ -16,6 +16,8 @@ module.exports = (() => {
 
   User.belongsToMany(Event, {through: UserEvent});
   Event.belongsToMany(User, {through: UserEvent});
+  UserEvent.belongsTo(User);
+  UserEvent.belongsTo(Event);
 
   UserEvent.sync();
   //UserEvent.sync({force:true});
