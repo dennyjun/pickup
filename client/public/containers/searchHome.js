@@ -13,7 +13,6 @@ class SearchHome extends Component {
     this.state = {
       newPlayerName: ''
     }
-
   }
 
   onMapCreated(map) {
@@ -39,17 +38,17 @@ class SearchHome extends Component {
 
   submitNewPlayerEntry(event) {
     let uniqueId = Number($(event.target).parents('.valign-wrapper').attr('data-id'));
-    for(let i = 0; i < this.props.searchGames.length; i ++) {
-      if(uniqueId === this.props.searchGames[i].id) {
-        let fromStringToArray = JSON.parse(this.props.searchGames[i].joinedPlayers);
+    for(let i = 0; i < this.props.searchEvents.length; i ++) {
+      if(uniqueId === this.props.searchEvents[i].id) {
+        let fromStringToArray = JSON.parse(this.props.searchEvents[i].joinedPlayers);
         fromStringToArray.push(this.state.newPlayerName);
         
         let addedJoinedPlayer = JSON.stringify(fromStringToArray)
         
-        this.props.searchGames[i].joinedPlayers = addedJoinedPlayer;
+        this.props.searchEvents[i].joinedPlayers = addedJoinedPlayer;
         
-        this.props.searchGames[i].maxParticipants--;
-        this.props.submitPlayer(this.props.searchGames[i]);
+        this.props.searchEvents[i].maxParticipants--;
+        this.props.submitPlayer(this.props.searchEvents[i]);
       }
     }
     this.setState({
@@ -84,71 +83,66 @@ class SearchHome extends Component {
     }
   }
 
-  searchedGameCards() {
-    return this.props.searchGames.map((game) => {
-      console.log('show', game);
+  searchedEventCards() {
+    return this.props.searchEvents.map((event) => {
       return(
-        <div className="valign-wrapper" data-id={game.id}>
+        <div className="valign-wrapper" data-id={event.id}>
           <div className="valign center-block">
+            <div className="card card-panel hoverable">
+              <div className="card-title">
+              <p><strong>ID: </strong>{String.fromCharCode(event.id + 64)}</p>
+                <h4 className="center-align">
+                  {event.type}
+                </h4>
 
-                <div className="card card-panel hoverable">
-                  <div className="card-title">
-                  <p><strong>ID: </strong>{String.fromCharCode(game.id + 64)}</p>
-                    <h4 className="center-align">
-                      {game.type}
-                    </h4>
-
-                  </div>
-                    <h5 className="left-align">
-                      <i className="fa fa-globe fa-lg" aria-hidden="true"></i> 
-                      &nbsp; &nbsp;{game.name}
-                    </h5>
-                    <h5 className="left-align">
-                      <i className="fa fa-calendar" aria-hidden="true"></i> 
-                      &nbsp; &nbsp;{moment(game.time).format('MMMM Do YYYY \n h:mm a')}
-                    </h5>
-                    <h5 className="center-align">
-                      waiting for <strong>{game.maxParticipants}</strong> players
-                    </h5>
-                    <h5 className="card-text center-align"><strong>Rules:</strong> {game.details}</h5>
-                    {this.renderAction(game.maxParticipants)}
-                    <p className="left-align">
-                      <i className="fa fa-star" aria-hidden="true"></i> 
-                      &nbsp; &nbsp;{game.user.name}
-                    </p>
-                    <ul>
-                      <i className="fa fa-users fa-lg" aria-hidden="true"></i> 
-                      <li>{this.displayJoinedPlayer(game.participants)}</li>
-                    </ul>
-                </div>
-
+              </div>
+                <h5 className="left-align">
+                  <i className="fa fa-globe fa-lg" aria-hidden="true"></i> 
+                  &nbsp; &nbsp;{event.name}
+                </h5>
+                <h5 className="left-align">
+                  <i className="fa fa-calendar" aria-hidden="true"></i> 
+                  &nbsp; &nbsp;{moment(event.time).format('MMMM Do YYYY \n h:mm a')}
+                </h5>
+                <h5 className="center-align">
+                  waiting for <strong>{event.maxParticipants}</strong> players
+                </h5>
+                <h5 className="card-text center-align"><strong>Rules:</strong> {event.details}</h5>
+                {this.renderAction(event.maxParticipants)}
+                <p className="left-align">
+                  <i className="fa fa-star" aria-hidden="true"></i> 
+                  &nbsp; &nbsp;{event.user.name}
+                </p>
+                <ul>
+                  <i className="fa fa-users fa-lg" aria-hidden="true"></i> 
+                  {this.displayJoinedPlayer(event.participants)}
+                </ul>
+            </div>
           </div>                    
         </div>
       )
     })
   }
 
-   gameMarkers() {
-    return this.props.searchGames.map((game) => {
+   eventMarkers() {
+    return this.props.searchEvents.map((event) => {
       return(
         <Marker
-          lat={game.location.lat}
-          lng={game.location.lng}
-          label={String.fromCharCode(game.id + 64)}
+          lat={event.location.lat}
+          lng={event.location.lng}
+          label={String.fromCharCode(event.id + 64)}
           draggable={false}
           onDragEnd={this.onDragEnd} />
       )
     })
   }
 
- 
-
   render() {
     return (
       <div>
 
-      <div id="gamesView">
-        {this.searchedGameCards()}
+      <div id="eventsView">
+        {this.searchedEventCards()}
       </div>
     
         <div id='map'>
@@ -167,7 +161,7 @@ class SearchHome extends Component {
               label={'x'}
               draggable={false}
               onDragEnd={this.onDragEnd} />
-            { this.gameMarkers() }
+            { this.eventMarkers() }
           </Gmaps>
         </div>
 
@@ -179,7 +173,7 @@ class SearchHome extends Component {
 
 function mapStateToProps(state) {
   return {
-    searchGames: state.searchGames,
+    searchEvents: state.searchEvents,
     determinedLocation: state.determinedLocation
   }
 }

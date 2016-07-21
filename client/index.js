@@ -11,7 +11,7 @@ import reducer from './public/reducers'
 import NavBar from './public/components/navBar'
 import Search from './public/containers/search'
 import Add from './public/containers/add'
-import GameListHome from './public/containers/gameListHome'
+import EventListHome from './public/containers/eventListHome'
 import SearchHome from './public/containers/searchHome'
 
 const createStoreWithMiddleWare = applyMiddleware(thunk)(createStore);
@@ -28,7 +28,7 @@ const createStoreWithMiddleWare = applyMiddleware(thunk)(createStore);
         
         <Route path="/NavBar" component={NavBar} >
           <Route path="/SearchHome" component={SearchHome} />
-          <Route path="/GameListHome" component={GameListHome} />
+          <Route path="/EventListHome" component={EventListHome} />
         </Route>
 
       </Router>

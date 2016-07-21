@@ -1,8 +1,8 @@
 var express = require('express');
 
-module.exports = (function() {
+module.exports = (() => {
   return {
-    clone: function(attributes) {
+    clone: (attributes) => {
       return {
         path: attributes.path || '',
         router: express.Router()

@@ -17,6 +17,9 @@ module.exports = (() => {
     timestamps: true
   });
 
+  // Session.belongsTo(User);
+  // User.belongsTo(Session);
+
   Session.sync();
   //Session.sync({force:true});
   return Session;
