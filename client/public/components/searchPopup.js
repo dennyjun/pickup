@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import { Link } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -41,7 +42,8 @@ class SearchPopup extends Component {
       <div>
 
       <MuiThemeProvider>
-        <FlatButton className="red white-text" label="New Search" onTouchTap={this.handleOpen} />
+        <a href="#" onClick={this.handleOpen}>NEW SEARCH</a>
+   
       </MuiThemeProvider>
       <MuiThemeProvider>
         <Dialog
