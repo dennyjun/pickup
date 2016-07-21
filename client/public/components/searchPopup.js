@@ -41,7 +41,7 @@ class SearchPopup extends Component {
       <div>
 
       <MuiThemeProvider>
-        <RaisedButton className="red" label="New Search" onTouchTap={this.handleOpen} />
+        <FlatButton className="red white-text" label="New Search" onTouchTap={this.handleOpen} />
       </MuiThemeProvider>
       <MuiThemeProvider>
         <Dialog
