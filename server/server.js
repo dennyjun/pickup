@@ -37,6 +37,10 @@ router(app, controllers).init();
 //   name: 'denny'
 // });
 
+app.get('*', function(req, res) {
+  res.sendFile(path.resolve('client', 'index.html'))
+});
+
 // + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
 // Boot server
 let port = process.env.PORT || 3000;
