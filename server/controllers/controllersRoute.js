@@ -1,15 +1,15 @@
-var eventsController = require('./eventsController.js');
-var locationsController = require('./locationsController.js');
-var usersController = require('./usersController.js');
+let eventsController = require('./eventsController.js');
+let locationsController = require('./locationsController.js');
+let usersController = require('./usersController.js');
 
-module.exports = (function(){
-  var controllers = [
+module.exports = (() => {
+  let controllers = [
     eventsController,
     locationsController,
     usersController
   ];
-  var router = {};
-  controllers.forEach(function(controller) {
+  let router = {};
+  controllers.forEach((controller) => {
     router[controller.path] = controller.router;
   });
   return router;

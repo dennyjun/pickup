@@ -9,16 +9,13 @@ module.exports = (() => {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true
-    },
-    userId: {
-      type: Sequelize.INTEGER
-    },
-    eventId: {
-      type: Sequelize.INTEGER
     }
   }, {
     timestamps : true
   });
+
+  User.belongsToMany(Event, {through: UserEvent});
+  Event.belongsToMany(User, {through: UserEvent});
 
   UserEvent.sync();
   //UserEvent.sync({force:true});

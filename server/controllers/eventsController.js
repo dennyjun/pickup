@@ -21,12 +21,11 @@ module.exports = (() => {
           let event = result.dataValues;
           event.user = event.user.dataValues;
           event.location = event.location.dataValues;
-          event.participants = [event.user.name];
+          event.participants = [event.user.name];                // Need more participants
           return event;
         });
       })
       .then((events) => {
-        console.log('RESULTS', events);
         res.send(events);
       })
       .catch((error) => {

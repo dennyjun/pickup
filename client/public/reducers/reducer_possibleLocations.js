@@ -1,7 +1,7 @@
 import { POSSIBLE_LOCATIONS } from '../actions/index';
 import { CLEAR_LOCATIONS } from '../actions/index';
 
-export default function(state = [], action) {
+export default (state = [], action) => {
   switch(action.type){
     case POSSIBLE_LOCATIONS:
       return action.payload;

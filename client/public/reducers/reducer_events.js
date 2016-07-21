@@ -5,22 +5,22 @@ import { SUBMIT_PLAYER } from '../actions/index';
 //   {id: 3, sport: "basketball", rules: "shoot 3's", time: 700, location: [{lat: '33.978243', long: '-118.032646'}], current_players: 1, playersNeeded: 4, created_by: "phil"}
 // ]
 
-const updateGameInList = function(arr, obj) {
-  const modArr = arr.map(function(game) {
-    if(game.id === obj.id) {
+const updateEventInList = (arr, obj) => {
+  const modArr = arr.map((event) => {
+    if(event.id === obj.id) {
       return obj;
-        console.log('inside the reducer if statement', game)
+        console.log('inside the reducer if statement', event)
     }
-      return game;
+      return event;
     })
     console.log(modArr)
     return modArr;
 }
 
-export default function(state = [], action) {
+export default (state = [], action) => {
   switch(action.type) {
     case SUBMIT_PLAYER:
-      return updateGameInList(state, action.payload);
+      return updateEventInList(state, action.payload);
   }
   return state;
 }
