@@ -4,7 +4,7 @@ const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const LocalStrategy = require('passport-local');
 require('dotenv').config();
-const authController = require('../controllers/authController');
+const authHelper = require('../helperFunctions/authHelper.js');
 
 // Create local JWT strategy
 const localOptions = { usernameField: 'username' };
@@ -18,7 +18,7 @@ const localLogin = new LocalStrategy(localOptions, (username, password, done) =>
       return done(null, false);
     }
     
-    return authController.comparePassword(password, user.password)
+    return authHelper.comparePassword(password, user.password)
     .then((resp) => {
       if(resp) {
         return done(null, user);

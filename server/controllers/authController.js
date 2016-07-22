@@ -1,48 +1,17 @@
 let User = require('../models/usersModel');
-let jwt = require('jwt-simple');
-let passport = require('passport');
-let passportJwt = require('passport-jwt');
-let bcrypt = require('bcrypt');
-require('dotenv').config()
-
-// use passport and passport jwt
-
-// Create function that uses JWT encode and the secret which is in the config file
-
-// Use bcrypt to hash password in users model file before user gets saved
+let template = require('./controllerTemplate.js');
+let authHelper = require('../helperFunctions/authHelper.js');
 
 module.exports = (() => {
-  function hashPassword(password) {
-  const saltRounds = 5;
+  let authController = template.clone({
+    path: '/auth'
+  });
 
-    return new Promise((resolve, reject) => {
-      return bcrypt.hash(password, saltRounds, (err, hash) => {
-        if(err) {
-          res.send("There was an error encrypting your password.");
-        }
-        resolve({
-          hash: hash
-        });
-      });
-    })
-  }
+  let router = authController.router;
 
-  function comparePassword(password, dbPassword) {
-    return new Promise((resolve, reject) => {
-      return bcrypt.compare(password, dbPassword, (err, response) => {
-        resolve(response); 
-      });
-    });
-  };
-
-  function tokenForUser(user) {
-    const time = new Date().getTime();
-    return jwt.encode({ sub: user, iat: time }, process.env.SECRET);
-  }
-
-  function signup(req, res) {
+  router.post('/signup', (req, res) => {
     const username = req.body.username;
-    const hashedPassword = hashPassword(req.body.password);
+    const hashedPassword = authHelper.hashPassword(req.body.password);
 
     if(!username || !req.body.password) {
       return res.status(422).send({ error: "You must enter both a username and password."});
@@ -59,9 +28,9 @@ module.exports = (() => {
         }
       });
     });
-  };
+  });
 
-  function login(req, res, next) {
+  router.post('/login', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
@@ -74,11 +43,11 @@ module.exports = (() => {
       return userData.password;
     })
     .then((resp) => {
-      return comparePassword(password, resp);
+      return authHelper.comparePassword(password, resp);
     })
     .then((pwCheck) => {
       if(pwCheck) {
-        res.send({ token: tokenForUser(username)});
+        res.send({ token: authHelper.tokenForUser(username)});
       } else {
         res.send("Invalid password");
       }
@@ -86,15 +55,8 @@ module.exports = (() => {
     .catch((err) => {
       res.status(404).send({ error: "Unknown error."});
     })
+  });
 
-  };
-
-  return {
-    signup: signup,
-    login: login,
-    hashPassword: hashPassword,
-    comparePassword: comparePassword,
-    tokenForUser: tokenForUser
-  }
+  return authController;
 })();
 

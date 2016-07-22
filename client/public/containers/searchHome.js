@@ -6,13 +6,27 @@ import $ from 'jquery';
 import { submitPlayer } from '../actions/index';
 import moment from 'moment';
 
+let imgs = (() => {
+  return {
+    baseball: 'baseball.png',
+    basketball: 'basketball.png',
+    billiard: 'billiard.png',
+    cricket: 'cricket.png',
+    football: 'football.png',
+    golf: 'golf.png',
+    handball: 'handball.png',
+    rugby: 'rugby.png',
+    soccer: 'soccer.png',
+    squash: 'squash.png',
+    tabletennis: 'tabletennis.png',
+    tennis: 'tennis.png',
+    volleyball: 'volleyball.png'
+  };
+})();
+
 class SearchHome extends Component {
   constructor(props) {
     super(props)
-
-    this.state = {
-      newPlayerName: ''
-    }
   }
 
   onMapCreated(map) {
@@ -21,72 +35,47 @@ class SearchHome extends Component {
     });
   };
 
-  playerEntryInputChange(event) {
-    this.setState({
-      newPlayerName: event.target.value
-    })
-  };
-
-  showNameEntry(event) {
-    this.setState({
-      newPlayerName: ''
-    })
-
-    $('.newPlayerEntry').hide()
-    $(event.target).siblings('.newPlayerEntry').show()
-  };
-
-  submitNewPlayerEntry(event) {
-    let uniqueId = Number($(event.target).parents('.valign-wrapper').attr('data-id'));
-    for(let i = 0; i < this.props.searchEvents.length; i ++) {
-      if(uniqueId === this.props.searchEvents[i].id) {
-        let fromStringToArray = JSON.parse(this.props.searchEvents[i].joinedPlayers);
-        fromStringToArray.push(this.state.newPlayerName);
-        
-        let addedJoinedPlayer = JSON.stringify(fromStringToArray)
-        
-        this.props.searchEvents[i].joinedPlayers = addedJoinedPlayer;
-        
-        this.props.searchEvents[i].maxParticipants--;
-        this.props.submitPlayer(this.props.searchEvents[i]);
-      }
-    }
-    this.setState({
-      newPlayerName: ''
-    })
-    event.preventDefault()
+  joinEvent(event) {
+    this.props.submitPlayer(event.id);
   }
 
-  displayJoinedPlayer(joinedPlayers) {
-    return joinedPlayers.map((player) => {
+  displayParticipants(participants) {
+    return participants.map((participant, index) => {
       return (
-        <li>
-          {player}
+        <li key={index} data-id={participant.id}>
+          {participant.username}
         </li>
-      )
+      );
     })
   }
 
-  renderAction(maxParticipants) {
-    if(maxParticipants <= 0) {
+  renderJoinEventButton(event) {
+    if(event.maxParticipants < 1) {
       return;
-    } else {
-      return(
-        <div className="card-action">
-          <button className="btn red waves-effect waves-light" onClick={this.showNameEntry.bind(this)} type="submit" name="action"> <i className="material-icons right">send</i>Join
-            </button>
-            <form className="newPlayerEntry" onSubmit={this.submitNewPlayerEntry.bind(this)}>
-              <input onChange={this.playerEntryInputChange.bind(this)} value={this.state.newPlayerName} type='text' placeholder='Enter Your Name'></input>
-            </form>
-        </div>
-      )
     }
+    // NEED USER ID TO FILTER
+    // for(let i = 0; i < event.participants.length; ++i) {
+    //   if(needimplemented.user.id === event.user.id) {
+    //     return;
+    //   }
+    // }
+    return(
+      <div className="card-action">
+        <button className="btn red waves-effect waves-light" 
+                onClick={(event) => this.joinEvent(event)} 
+                type="button" 
+                name="action"> 
+          <i className="material-icons right" />
+          Join
+        </button>
+      </div>
+    );
   }
 
   searchedEventCards() {
-    return this.props.searchEvents.map((event) => {
+    return this.props.searchEvents.map((event, index) => {
       return(
-        <div className="valign-wrapper" data-id={event.id}>
+        <div className="valign-wrapper" data-id={event.id} key={index}>
           <div className="valign center-block">
             <div className="card card-panel hoverable">
               <div className="card-title">
@@ -94,7 +83,6 @@ class SearchHome extends Component {
                 <h4 className="center-align">
                   {event.type}
                 </h4>
-
               </div>
                 <h5 className="left-align">
                   <i className="fa fa-globe fa-lg" aria-hidden="true"></i> 
@@ -105,17 +93,17 @@ class SearchHome extends Component {
                   &nbsp; &nbsp;{moment(event.time).format('MMMM Do YYYY \n h:mm a')}
                 </h5>
                 <h5 className="center-align">
-                  waiting for <strong>{event.maxParticipants}</strong> players
+                  waiting for <strong>{event.maxParticipants}</strong> more
                 </h5>
-                <h5 className="card-text center-align"><strong>Rules:</strong> {event.details}</h5>
-                {this.renderAction(event.maxParticipants)}
+                <h5 className="card-text center-align"><strong>Details:</strong> {event.details}</h5>
+                {this.renderJoinEventButton(event)}
                 <p className="left-align">
                   <i className="fa fa-star" aria-hidden="true"></i> 
-                  &nbsp; &nbsp;{event.user.name}
+                  &nbsp; &nbsp;<span data-id={event.user.id}>{event.user.username}</span>
                 </p>
                 <ul>
                   <i className="fa fa-users fa-lg" aria-hidden="true"></i> 
-                  {this.displayJoinedPlayer(event.participants)}
+                  {this.displayParticipants(event.participants)}
                 </ul>
             </div>
           </div>                    
@@ -124,27 +112,45 @@ class SearchHome extends Component {
     })
   }
 
-   eventMarkers() {
-    return this.props.searchEvents.map((event) => {
+  eventMarkers() {
+    return this.props.searchEvents.map((event, index) => {
       return(
         <Marker
+          key={index}
           lat={event.location.lat}
           lng={event.location.lng}
-          label={String.fromCharCode(event.id + 64)}
-          draggable={false}
-          onDragEnd={this.onDragEnd} />
+          label=""
+          icon={this.determineMarkerIcon(event)}>
+        </Marker>
       )
     })
+  }
+
+  determineMarkerIcon(event) {
+    let capacity = event.participants.length / event.maxParticipants;
+    if(capacity < 0.125) {
+      capacity = "empty";
+    } else if(capacity < 0.375) {
+      capacity = "almost-empty";
+    } else if(capacity < 0.625) {
+      capacity = "half-full";
+    } else if(capacity < 0.875) {
+      capacity = "almost-full";
+    } else {
+      capacity = "full";
+    }
+    if(!imgs[event.type]) {
+      return "/imgs/caution.png";
+    }
+    return "/imgs/" + capacity + "/" + event.type + ".png";
   }
 
   render() {
     return (
       <div>
-
-      <div id="eventsView">
-        {this.searchedEventCards()}
-      </div>
-    
+        <div id="eventsView">
+          {this.searchedEventCards()}
+        </div>
         <div id='map'>
           <Gmaps
             width={'100%'}
@@ -155,17 +161,9 @@ class SearchHome extends Component {
             loadingMessage={'Be happy'}
             params={{v: '3.exp', key: 'AIzaSyAlCGs74Skpymw9LLAjkMg-8jQ1gIue9n8'}}
             onMapCreated={this.onMapCreated}>
-            <Marker
-              lat={this.props.determinedLocation.lat}
-              lng={this.props.determinedLocation.lng}
-              label={'x'}
-              draggable={false}
-              onDragEnd={this.onDragEnd} />
             { this.eventMarkers() }
           </Gmaps>
         </div>
-
-
       </div>
     );
   }

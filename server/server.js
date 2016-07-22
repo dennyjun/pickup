@@ -7,7 +7,8 @@ let app = express();
 let bodyParser = require('body-parser');
 let path = require('path');
 let router = require('./router.js');
-let controllers = require('./controllers/controllersRoute.js');
+let publicControllers = require('./controllers/publicControllers.js');
+let privateControllers = require('./controllers/privateControllers.js');
 let authController = require('./controllers/authController.js')
 
 
@@ -33,11 +34,8 @@ app.use((req, res, next) => {
 // Routes
 app.use(express.static(__dirname + '/../client'));
 
-app.post('/auth/signup', authController.signup);
-
-app.post('/auth/login', authController.login);
-
-router(app, controllers).initSecured();
+router(app, publicControllers).init();
+router(app, privateControllers).initSecured();
 
 // require('./models/usersModel.js').create({
 //   name: 'denny'
