@@ -6,6 +6,24 @@ import $ from 'jquery';
 import { submitPlayer } from '../actions/index';
 import moment from 'moment';
 
+let imgs = (() => {
+  return {
+    baseball: 'baseball.png',
+    basketball: 'basketball.png',
+    billiard: 'billiard.png',
+    cricket: 'cricket.png',
+    football: 'football.png',
+    golf: 'golf.png',
+    handball: 'handball.png',
+    rugby: 'rugby.png',
+    soccer: 'soccer.png',
+    squash: 'squash.png',
+    tabletennis: 'tabletennis.png',
+    tennis: 'tennis.png',
+    volleyball: 'volleyball.png'
+  };
+})();
+
 class SearchHome extends Component {
   constructor(props) {
     super(props)
@@ -94,28 +112,45 @@ class SearchHome extends Component {
     })
   }
 
-   eventMarkers() {
+  eventMarkers() {
     return this.props.searchEvents.map((event, index) => {
       return(
         <Marker
           key={index}
           lat={event.location.lat}
           lng={event.location.lng}
-          label={String.fromCharCode(event.id + 64)}
-          draggable={false}
-          onDragEnd={this.onDragEnd} />
+          label=""
+          icon={this.determineMarkerIcon(event)}>
+        </Marker>
       )
     })
+  }
+
+  determineMarkerIcon(event) {
+    let capacity = event.participants.length / event.maxParticipants;
+    if(capacity < 0.125) {
+      capacity = "empty";
+    } else if(capacity < 0.375) {
+      capacity = "almost-empty";
+    } else if(capacity < 0.625) {
+      capacity = "half-full";
+    } else if(capacity < 0.875) {
+      capacity = "almost-full";
+    } else {
+      capacity = "full";
+    }
+    if(!imgs[event.type]) {
+      return "/imgs/caution.png";
+    }
+    return "/imgs/" + capacity + "/" + event.type + ".png";
   }
 
   render() {
     return (
       <div>
-
-      <div id="eventsView">
-        {this.searchedEventCards()}
-      </div>
-    
+        <div id="eventsView">
+          {this.searchedEventCards()}
+        </div>
         <div id='map'>
           <Gmaps
             width={'100%'}
@@ -126,17 +161,9 @@ class SearchHome extends Component {
             loadingMessage={'Be happy'}
             params={{v: '3.exp', key: 'AIzaSyAlCGs74Skpymw9LLAjkMg-8jQ1gIue9n8'}}
             onMapCreated={this.onMapCreated}>
-            <Marker
-              lat={this.props.determinedLocation.lat}
-              lng={this.props.determinedLocation.lng}
-              label={'x'}
-              draggable={false}
-              onDragEnd={this.onDragEnd} />
             { this.eventMarkers() }
           </Gmaps>
         </div>
-
-
       </div>
     );
   }
