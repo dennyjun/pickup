@@ -25,7 +25,7 @@ class SearchHome extends Component {
     return participants.map((participant, index) => {
       return (
         <li key={index} data-id={participant.id}>
-          {participant.name}
+          {participant.username}
         </li>
       );
     })
@@ -81,7 +81,7 @@ class SearchHome extends Component {
                 {this.renderJoinEventButton(event)}
                 <p className="left-align">
                   <i className="fa fa-star" aria-hidden="true"></i> 
-                  &nbsp; &nbsp;<span data-id={event.user.id}>{event.user.name}</span>
+                  &nbsp; &nbsp;<span data-id={event.user.id}>{event.user.username}</span>
                 </p>
                 <ul>
                   <i className="fa fa-users fa-lg" aria-hidden="true"></i> 

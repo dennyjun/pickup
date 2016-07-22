@@ -16,7 +16,7 @@ class EventListHome extends Component {
             <h4 className="center-align">Location: {event.name}</h4>
             <p className="card-text">Details: {event.details}</p>
           <div className="card-action">
-            <p className="left-align">Host: {event.user.name}</p>
+            <p className="left-align">Host: {event.user.username}</p>
           </div>
         </div>
       );
