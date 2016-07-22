@@ -21,8 +21,31 @@ module.exports = (() => {
           let event = result.dataValues;
           event.user = event.user.dataValues;
           event.location = event.location.dataValues;
-          event.participants = [event.user.name];                // Need more participants
           return event;
+        });
+      })
+      .then((events) => {
+        let promises = _.map(events, (event) => {
+          return UserEvent.findAll({
+            where: {
+              eventId: event.id
+            },
+            include: [User]
+          });
+        });
+        return Promise.all(promises)
+        .then((results) => {
+          let usersByEvent = {};
+          _.each(results, (result) => {
+            usersByEvent[result[0].eventId] =
+              _.map(result, (event) => {
+                return event.user.dataValues
+              });
+          });
+          return _.map(events, (event) => {
+            event.participants = usersByEvent[event.id];
+            return event;
+          });
         });
       })
       .then((events) => {
@@ -63,20 +86,27 @@ module.exports = (() => {
         });
       });
     }).then(() => {
-      res.send('Event created successfully.');
+      res.send('Event created successfully');
     }).catch((error) => {
       console.error('Failed to create event', error);
       res.status(500).send(error);
     });
   });
 
-  router.put('/', (req, res) => {
-
+  router.put('/:eventId/participants/', (req, res) => {
+    let participantId = req.session.user.id;
+    UserEvent.findOrCreate({
+      userId: participantId,
+      eventId: req.params.eventId
+    })
+    .then((userEvent) => {
+      res.send('Joined event successfully');
+    })
+    .catch((error) => {
+      console.error('Failed to join event', error);
+      res.status(500).send(error);
+    });
   });
-  router.delete('/', (req, res) => {
-
-  });
-
 
   return eventsController;
 })();

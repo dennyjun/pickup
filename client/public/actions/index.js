@@ -105,9 +105,10 @@ export function submitEvent(event) {
   }    
 }
 
-export function submitPlayer(playerObj) {
+export function submitPlayer(eventId, participantId) {
   return (dispatch) => {
-    axios.put('/api/events', playerObj)
+    let endpoint = '/api/events/' + eventId + '/participants/';
+    axios.put(endpoint)
       .then((response) => {
         dispatch({
           type: SUBMIT_PLAYER,
