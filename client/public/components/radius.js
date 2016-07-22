@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 
 const styles = {
   color: {
@@ -17,8 +16,6 @@ class Radius extends Component {
     this.state = {
       value: 1
     };
-
-    injectTapEventPlugin();
   }
 
   handleChange = (event, index, value) => this.setState({value});
