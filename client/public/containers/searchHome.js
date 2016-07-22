@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import $ from 'jquery';
 import { submitPlayer } from '../actions/index';
 import moment from 'moment';
+import PopupDetail from './popupDetail.js';
 
 let imgs = (() => {
   return {
@@ -27,6 +28,12 @@ let imgs = (() => {
 class SearchHome extends Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      detailOpen: false,
+      newPlayerName: '',
+      openEvent: undefined
+    }
   }
 
   onMapCreated(map) {
@@ -73,10 +80,10 @@ class SearchHome extends Component {
   }
 
   searchedEventCards() {
-    return this.props.searchEvents.map((event, index) => {
+    return this.props.searchEvents.map((event) => {
       return(
-        <div className="valign-wrapper" data-id={event.id} key={index}>
-          <div className="valign center-block">
+        <div className="valign-wrapper">
+          <div className="valign center-block" onClick={this.detailOpen.bind(this, event)}>
             <div className="card card-panel hoverable">
               <div className="card-title">
               <p><strong>ID: </strong>{String.fromCharCode(event.id + 64)}</p>
@@ -92,24 +99,19 @@ class SearchHome extends Component {
                   <i className="fa fa-calendar" aria-hidden="true"></i> 
                   &nbsp; &nbsp;{moment(event.time).format('MMMM Do YYYY \n h:mm a')}
                 </h5>
-                <h5 className="center-align">
-                  waiting for <strong>{event.maxParticipants}</strong> more
-                </h5>
-                <h5 className="card-text center-align"><strong>Details:</strong> {event.details}</h5>
-                {this.renderJoinEventButton(event)}
-                <p className="left-align">
-                  <i className="fa fa-star" aria-hidden="true"></i> 
-                  &nbsp; &nbsp;<span data-id={event.user.id}>{event.user.username}</span>
-                </p>
-                <ul>
-                  <i className="fa fa-users fa-lg" aria-hidden="true"></i> 
-                  {this.displayParticipants(event.participants)}
-                </ul>
             </div>
-          </div>                    
+          </div>
         </div>
       )
     })
+  }
+
+  detailOpen(event) {      
+    console.log("EVNET",event)
+    this.setState({
+      detailOpen: true,
+      openEvent: event
+    });
   }
 
   eventMarkers() {
@@ -164,6 +166,10 @@ class SearchHome extends Component {
             { this.eventMarkers() }
           </Gmaps>
         </div>
+        <div>
+          <PopupDetail event={this.state.openEvent} detailOpen={this.state.detailOpen}/>
+        </div>
+
       </div>
     );
   }
