@@ -3,10 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { searchEvents, clearPossibleLocations } from '../actions/index';
 import $ from 'jquery';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
 
 class Search extends Component { 
 
@@ -78,8 +74,6 @@ render() {
           <br />
 
           <div className="row">
-
-
             <form className="inputBox" onSubmit={this.onLocationSubmit.bind(this)}>
               <div className="col s6 offset-s3 center-align">
                 <input value={this.state.locationInput} onChange={this.onLocationEnter.bind(this)} type='text' placeholder='Enter City Name'/>
@@ -96,6 +90,8 @@ render() {
           <div>
             <h5 className="center-align"><strong>Welcome to PickUp! Enter your location to find a event near: <span>{this.state.locationInput}</span></strong></h5>
           </div>
+
+
 
         </div>           
       </div>
