@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { searchGames, clearPossibleLocations } from '../actions/index';
+import { searchEvents, clearPossibleLocations } from '../actions/index';
 import $ from 'jquery';
 
 class Search extends Component { 
@@ -22,7 +22,6 @@ class Search extends Component {
   }
 
   listOfPossibleLocations() {
-    console.log('inside listOfPossibleLocations')
     return this.props.possibleLocations.map((location) =>{
        return(
         <div className="listOfPossibleLocations center-align" onClick={ this.onLocationSubmit.bind(this, location.formatted_address) }>{ location.formatted_address }</div>
@@ -48,7 +47,7 @@ class Search extends Component {
         locationInput: ''
       })
     }
-    this.props.searchGames( { sport: this.state.dropDownSport, location: fixedLocation } );
+    this.props.searchEvents( { sport: this.state.dropDownSport, location: fixedLocation } );
     this.props.clearPossibleLocations();
   }
 
@@ -57,6 +56,7 @@ class Search extends Component {
       locationInput: event.target.value
     })
   }
+
 
 render() {
     return (
@@ -72,14 +72,15 @@ render() {
 
           <div>
             <form className="inputBox" onSubmit={this.onLocationSubmit.bind(this)}>
-              <input value={this.state.locationInput} onChange={this.onLocationEnter.bind(this)} type='text' placeholder='Enter a Location'/>
+              <input value={this.state.locationInput} onChange={this.onLocationEnter.bind(this)} type='text' placeholder='Enter City Name'/>
+              <input className="btn red waves-effect waves-light btn valign center-block" value="Search" type="submit" />
+
             </form>   
           </div>
 
           <div>
-            <h5 className="center-align"><strong>Welcome to PickUp! Enter your location to find a game near you!</strong></h5>
+            <h5 className="center-align"><strong>Welcome to PickUp! Enter your location to find a event near you!</strong></h5>
           </div>
-          
         </div>           
       </div>
     )
@@ -93,7 +94,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({ searchGames, clearPossibleLocations }, dispatch);
+  return bindActionCreators({ searchEvents, clearPossibleLocations }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search)

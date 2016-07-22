@@ -2,7 +2,7 @@ let db = require('../db/db.js');
 let Sequelize = db.Sequelize;
 
 module.exports = (() => {  
-  let Location = db.define('location', {
+  let User = db.define('user', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -11,20 +11,14 @@ module.exports = (() => {
     name: {
       type: Sequelize.STRING
     },
-    street: {
+    password: {
       type: Sequelize.STRING
-    },
-    lat: {
-      type: Sequelize.FLOAT(10, 6)
-    },
-    lng: {
-      type: Sequelize.FLOAT(10, 6)
     }
   }, {
     timestamps : true
   });
 
-  Location.sync();
-  //Location.sync({force:true});
-  return Location;
+  User.sync();
+  // User.sync({force:true});
+  return User;
 })();

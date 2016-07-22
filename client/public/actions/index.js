@@ -1,94 +1,122 @@
 import axios from 'axios';
 import { browserHistory } from 'react-router';
 
-export const SUBMIT_GAME = 'SUBMIT-GAME';
-export const GET_GAMES = 'GET-GAMES';
-export const SEARCH_GAMES = 'SEARCH-GAMES'; 
+export const SUBMIT_EVENT = 'SUBMIT-EVENT';
+export const GET_EVENTS = 'GET-EVENTS';
+export const SEARCH_EVENTS = 'SEARCH-EVENTS'; 
 export const SUBMIT_PLAYER = 'SUBMIT-PLAYER'; 
 export const POSSIBLE_LOCATIONS = 'POSSIBLE-LOCATIONS'; 
 export const DETERMINED_LOCATION = 'DETERMINED-LOCATION';
 export const CLEAR_LOCATIONS = 'CLEAR-LOCATIONS';
 
 export function clearPossibleLocations() {
-  return function(dispatch) {
-    dispatch({ type: CLEAR_LOCATIONS, payload: [] })
+  return (dispatch) => {
+    dispatch({ 
+      type: CLEAR_LOCATIONS, 
+      payload: [] 
+    });
   }
-}
+};
 
-export function searchGames(searchObj) {
-  return function(dispatch) {
-  axios({
-    method: 'GET',
-    url: 'https://maps.googleapis.com/maps/api/geocode/json',
-    params: {address: searchObj.location, key: 'AIzaSyAlCGs74Skpymw9LLAjkMg-8jQ1gIue9n8'}
-  })
-    .then(function(response) {
-      if(response.data.results.length > 1) {
-        dispatch({ type: POSSIBLE_LOCATIONS, payload: response.data.results })
-        throw new Error('error on search in actions')
-      } else {
-          searchObj.lat = response.data.results[0].geometry.location.lat
-          searchObj.lng = response.data.results[0].geometry.location.lng
-          searchObj.address = response.data.results[0].formatted_address
-          searchObj.name = response.data.results[0].formatted_address
-
-          let determinedLocation = {address: response.data.results[0].formatted_address, lat: response.data.results[0].geometry.location.lat, lng: response.data.results[0].geometry.location.lng}
-          dispatch({ type: DETERMINED_LOCATION, payload: determinedLocation })
-          return axios.get('/api/games', searchObj)
+export function searchEvents(searchObj) {
+  return (dispatch) => {
+    axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+      params: {
+        address: searchObj.location, 
+        key: 'AIzaSyAlCGs74Skpymw9LLAjkMg-8jQ1gIue9n8'
       }
     })
-      .then(function(response) {
-        browserHistory.push('/SearchHome')
-        dispatch({ type: SEARCH_GAMES, payload: response.data })
-      })
-      .catch(function(error) {
-        console.log('error in the search games axios calls')
-      })
+    .then((response) => {
+      if(response.data.results.length > 1) {
+        dispatch({ 
+          type: POSSIBLE_LOCATIONS, 
+          payload: response.data.results 
+        });
+        throw new Error('error on search in actions')
+      } else {
+        let result = response.data.results[0];
+        searchObj.lat = result.geometry.location.lat;
+        searchObj.lng = result.geometry.location.lng;
+        searchObj.address = result.formatted_address;
+        searchObj.name = searchObj.address;
+
+        let determinedLocation = {
+          address: searchObj.address,
+          lat: searchObj.lat,
+          lng: searchObj.lng
+        };
+        dispatch({ 
+          type: DETERMINED_LOCATION,
+          payload: determinedLocation
+        });
+        return axios.get('/api/events', searchObj);
+      }
+    })
+    .then((response) => {
+      browserHistory.push('/SearchHome');
+      dispatch({
+        type: SEARCH_EVENTS,
+        payload: response.data
+      });
+    })
+    .catch((error) => {
+      console.error('error in the search events axios calls', error)
+    });
   }
 }
 
-export function submitGame(gameObj) {
-  return function(dispatch) {
-    axios({
-      method: 'GET',
-      url: 'https://maps.googleapis.com/maps/api/geocode/json',
-      params: {address: gameObj.location, key: 'AIzaSyAlCGs74Skpymw9LLAjkMg-8jQ1gIue9n8'}
+export function submitEvent(event) {
+  return (dispatch) => {
+    axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+      params: {
+        address: event.location,
+        key: 'AIzaSyAlCGs74Skpymw9LLAjkMg-8jQ1gIue9n8'
+      }
     })
-      .then(function(response) {
-        if(response.data.results.length > 1) {
-          dispatch({ type: POSSIBLE_LOCATIONS, payload: response.data.results })
-          throw new Error('jist an error')
-        } else {
-          gameObj.lat = response.data.results[0].geometry.location.lat
-          gameObj.lng = response.data.results[0].geometry.location.lng
-          gameObj.address = response.data.results[0].formatted_address
-          gameObj.name = response.data.results[0].formatted_address
-          return axios.post('/api/games', gameObj)
-        }
-      })
-            .then(function(response) {
-             return axios.get('/api/games')
-            })
-            .then(function(response) {
-              browserHistory.push('/GameListHome')
-              dispatch({ type: GET_GAMES, payload: response.data })
-            })
-            .catch(function(error) {
-              console.log(error, 'there was an error in the submit game action')
-            })
-      .catch(function(error) {
-        console.log(error, 'the error for the maps get call')
-      })
+    .then((response) => {
+      if(response.data.results.length > 1) {
+        dispatch({ 
+          type: POSSIBLE_LOCATIONS, 
+          payload: response.data.results 
+        });
+        throw new Error('jist an error');
+      } else {
+        let result = response.data.results[0];
+        event.lat = result.geometry.location.lat;
+        event.lng = result.geometry.location.lng;
+        event.address = result.formatted_address;
+        event.name = event.address;
+        return axios.post('/api/events', event);
+      }
+    })
+    .then((response) => {
+      return axios.get('/api/events');
+    })
+    .then((response) => {
+      browserHistory.push('/EventListHome');
+      dispatch({
+        type: GET_EVENTS,
+        payload: response.data
+      });
+    })
+    .catch((error) => {
+      console.log(error, 'there was an error in the submit event action');
+    });
   }    
 }
 
-export function submitPlayer(playerObj) {
-  return function(dispatch) {
-    axios.put('/api/games', playerObj)
-      .then(function(response) {
-        dispatch({ type: SUBMIT_PLAYER, payload: response.data})
+export function submitPlayer(eventId, participantId) {
+  return (dispatch) => {
+    let endpoint = '/api/events/' + eventId + '/participants/';
+    axios.put(endpoint)
+      .then((response) => {
+        dispatch({
+          type: SUBMIT_PLAYER,
+          payload: response.data
+        });
       })
-      .catch(function(error) {
-      })
+      .catch((error) => {
+        console.error('Failed submitPlayer', error);
+      });
   }
 }
