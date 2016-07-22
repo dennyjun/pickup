@@ -11,40 +11,27 @@ module.exports = (() => {
   let router = usersController.router;
 
   router.get('/:username', (req, res) => {
-    let username =  req.params.username;
+    // let username =  req.params.username;
     
-    User.findOne({ where: { username: username } })
-    .then((user) => {
-      if(user) {
-        console.log("User found");
-        res.status(200).send("User has been found!");
-      } else {
-        console.log("Not found");
-        res.status(200).send("The user does not exist!");
-      }
-    })
-    .catch((err) => {
-      console.log("Error getting username");
-      res.status(500).send(err.message);
-    })
-    // get user information using sequelize
-    // login
-    // console.log(req.body);
-    // res.send("hnnnnnnnnnnng");
+    // User.findOne({ where: { username: username } })
+    // .then((user) => {
+    //   if(user) {
+    //     res.status(200).send("User has been found!");
+    //   } else {
+    //     res.status(200).send("The user does not exist!");
+    //   }
+    // })
+    // .catch((err) => {
+    //   res.status(500).send(err.message);
+    // });
   });
 
-  router.post('/:username', (req, res) => {
-    // used for signup
-    // let addUser = (req, res, table, newData) => {
-    //   table.create(newData)
-    //   .then((data) => {
-    //     res.status(200).send(data);
-    //   })
-    //   .catch((err) => {
-    //     res.status(500).send(err.message);
-    //   });
-    // };
+  router.post('/signup', (req, res) => {
     return authController.signup(req, res);
+  });
+
+  router.post('/login', (req, res) => {
+    return authController.login(req, res);
   });
 
   router.put('/', (req, res) => {

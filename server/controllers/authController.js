@@ -1,9 +1,9 @@
 let User = require('../models/usersModel');
 let jwt = require('jwt-simple');
-// let config = require('../../.env');
 let passport = require('passport');
 let passportJwt = require('passport-jwt');
 let bcrypt = require('bcrypt');
+require('dotenv').config()
 
 // use passport and passport jwt
 
@@ -17,9 +17,8 @@ function hashPassword(password) {
   return new Promise((resolve, reject) => {
     return bcrypt.hash(password, saltRounds, (err, hash) => {
       if(err) {
-        res.send("There was an error encrypting your password");
+        res.send("There was an error encrypting your password.");
       }
-
       resolve({
         hash: hash
       });
@@ -28,14 +27,16 @@ function hashPassword(password) {
 }
 
 function comparePassword(password, dbPassword) {
-  return bcrypt.compare(password, dbPassword, (err, res) => {
-    return res;
-  })
+  return new Promise((resolve, reject) => {
+    return bcrypt.compare(password, dbPassword, (err, response) => {
+      resolve(response); 
+    });
+  });
 };
 
 function tokenForUser(user) {
   const time = new Date().getTime();
-  return jwt.encode;
+  return jwt.encode({ sub: user, iat: time }, process.env.SECRET);
 }
 
 module.exports = (() => {
@@ -51,8 +52,6 @@ module.exports = (() => {
     .then((hashword) => {
       return User.findOrCreate( { where: {username: username }, defaults: { username: username, password: hashword.hash } })
       .spread((user, created) => {
-        console.log("Created", created);
-        console.log(user);
         if(created) {
           return res.status(200).send("Account successfully created.");
         } else {
@@ -62,8 +61,37 @@ module.exports = (() => {
     });
   };
 
+  function login(req, res, next) {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    if(!username || !password) {
+      return res.status(422).send({ error: "You must enter both a username and password."});
+    }
+
+    User.findOne( { where: { username: username } })
+    .then((userData) => {
+      return userData.password;
+    })
+    .then((resp) => {
+      return comparePassword(password, resp);
+    })
+    .then((pwCheck) => {
+      if(pwCheck) {
+        res.send({ token: tokenForUser(username)});
+      } else {
+        res.send("Invalid password");
+      }
+    })
+    .catch((err) => {
+      res.status(404).send({ error: "Unknown error."});
+    })
+
+  };
+
   return {
-    signup: signup
+    signup: signup,
+    login: login
   }
 })();
 
@@ -111,6 +139,3 @@ module.exports = (() => {
 //   // 
 // }
 
-// export function login(req, res, next) {
-
-// }

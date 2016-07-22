@@ -126,7 +126,7 @@ export function loginUser(credentials) {
     body: `username=${credentials.username}&password=${credentials.password}`
   };
 
-  const login = axios.post('/api/login', config);
+  const login = axios.post('/api/user/login', config);
 
   // Need endpoint for getting session
   const getSession = axios.post(/* endpoint for getting session,*/ config);
