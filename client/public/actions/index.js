@@ -49,7 +49,7 @@ export function searchEvents(searchObj) {
           type: DETERMINED_LOCATION,
           payload: determinedLocation
         });
-        return axios.get('/api/events', searchObj);
+        return axios.get('/api/events', {params: searchObj});
       }
     })
     .then((response) => {
