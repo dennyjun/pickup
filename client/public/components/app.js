@@ -12,14 +12,10 @@ export default class App extends Component {
         <h1 className="center-align">PickUp</h1>
         <div className="valign-wrapper">
           <div className="valign center-block">
-
             <FindCreate />
-
           </div>
         </div>
-
             {this.props.children}
-
       </div>
     )
   }
