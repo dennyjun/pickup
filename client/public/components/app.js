@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import SearchHome from '../containers/searchHome';
 import FindCreate from './findCreate.js';
+import Login from './login';
 
 export default class App extends Component {
 

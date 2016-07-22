@@ -32,6 +32,11 @@
     "materialize-css": "^0.97.6",
     "moment": "^2.14.1",
     "mysql": "^2.11.1",
+<<<<<<< 6ee23c7eb5054f78ca1e63ab224af787382250a4
+=======
+    "node-mysql": "^0.4.2",
+    "passport": "^0.3.2",
+>>>>>>> [feature] login component, login action creator
     "path": "^0.12.7",
     "promise": "^7.1.1",
     "q": "^1.4.1",

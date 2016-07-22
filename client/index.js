@@ -13,6 +13,7 @@ import Search from './public/containers/search'
 import Add from './public/containers/add'
 import EventListHome from './public/containers/eventListHome'
 import SearchHome from './public/containers/searchHome'
+import Login from './public/components/login'
 
 const createStoreWithMiddleWare = applyMiddleware(thunk)(createStore);
 
