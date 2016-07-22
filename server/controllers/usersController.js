@@ -11,19 +11,7 @@ module.exports = (() => {
   let router = usersController.router;
 
   router.get('/:username', (req, res) => {
-    // let username =  req.params.username;
     
-    // User.findOne({ where: { username: username } })
-    // .then((user) => {
-    //   if(user) {
-    //     res.status(200).send("User has been found!");
-    //   } else {
-    //     res.status(200).send("The user does not exist!");
-    //   }
-    // })
-    // .catch((err) => {
-    //   res.status(500).send(err.message);
-    // });
   });
 
   router.post('/signup', (req, res) => {

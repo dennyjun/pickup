@@ -11,35 +11,35 @@ require('dotenv').config()
 
 // Use bcrypt to hash password in users model file before user gets saved
 
-function hashPassword(password) {
+module.exports = (() => {
+  function hashPassword(password) {
   const saltRounds = 5;
 
-  return new Promise((resolve, reject) => {
-    return bcrypt.hash(password, saltRounds, (err, hash) => {
-      if(err) {
-        res.send("There was an error encrypting your password.");
-      }
-      resolve({
-        hash: hash
+    return new Promise((resolve, reject) => {
+      return bcrypt.hash(password, saltRounds, (err, hash) => {
+        if(err) {
+          res.send("There was an error encrypting your password.");
+        }
+        resolve({
+          hash: hash
+        });
+      });
+    })
+  }
+
+  function comparePassword(password, dbPassword) {
+    return new Promise((resolve, reject) => {
+      return bcrypt.compare(password, dbPassword, (err, response) => {
+        resolve(response); 
       });
     });
-  })
-}
+  };
 
-function comparePassword(password, dbPassword) {
-  return new Promise((resolve, reject) => {
-    return bcrypt.compare(password, dbPassword, (err, response) => {
-      resolve(response); 
-    });
-  });
-};
+  function tokenForUser(user) {
+    const time = new Date().getTime();
+    return jwt.encode({ sub: user, iat: time }, process.env.SECRET);
+  }
 
-function tokenForUser(user) {
-  const time = new Date().getTime();
-  return jwt.encode({ sub: user, iat: time }, process.env.SECRET);
-}
-
-module.exports = (() => {
   function signup(req, res) {
     const username = req.body.username;
     const hashedPassword = hashPassword(req.body.password);
@@ -91,51 +91,10 @@ module.exports = (() => {
 
   return {
     signup: signup,
-    login: login
+    login: login,
+    hashPassword: hashPassword,
+    comparePassword: comparePassword,
+    tokenForUser: tokenForUser
   }
 })();
-
-
-
-
-  // let checkIfExists = (table, username) => {
-  //   return table.count( { where: {username: username }})
-  //   .then((count) => {
-  //     if(count !== 0) {
-  //       return true
-  //     }
-  //     return false;
-  //   });
-  // };
-
-  // change to findOrCreate
-//   checkIfExists(User, username)
-//   .then((exists) => {
-//     if(exists) {
-//       res.status(200).send("This username is already in use, try another.");
-//     }
-
-//     let newUser = {
-//       username: req.body.username,
-//       password: req.body.password
-//     }
-
-//     addUser(req, res, User, newUser);
-//   })
-// // Check to see if user filled out both fields
-
-// // Check if user exists
-// // mySQL equivalent to findOne, pass in user variable to check if it exists in DB, second argument a callback which takes error or existingUser arguments
-
-// // If user exists, return error
-// // return error status code and send an error object with message
-
-// // If user does not exist, create and save user record
-// // create a new user using user model with email and password
-// // save username to the database
-// // callback with error or responding to request indicating that the user was created
-
-//   // Respond to request indicating user was created with TOKEN
-//   // 
-// }
 
