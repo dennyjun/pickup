@@ -18,11 +18,14 @@ export default class Login extends Component {
       password: password.value.trim()
     }
 
-    console.log('Clicking working!', credentials);
-    axios.post('/api/users/login', credentials)
-    .then((resp) => {
-      console.log(resp);
+    axios.post('/auth/login', credentials)
+    .then((token) => {
+      console.log(token);
+      return token;
     })
+    .catch((err) => {
+      console.log("Error logging in!");
+    });
   }
 
   render() {

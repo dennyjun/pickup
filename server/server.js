@@ -8,6 +8,7 @@ let bodyParser = require('body-parser');
 let path = require('path');
 let router = require('./router.js');
 let controllers = require('./controllers/controllersRoute.js');
+let authController = require('./controllers/authController.js')
 
 
 //******************************************************************************
@@ -31,7 +32,12 @@ app.use((req, res, next) => {
 // + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
 // Routes
 app.use(express.static(__dirname + '/../client'));
-router(app, controllers).init();
+
+app.post('/auth/signup', authController.signup);
+
+app.post('/auth/login', authController.login);
+
+router(app, controllers).initSecured();
 
 // require('./models/usersModel.js').create({
 //   name: 'denny'
