@@ -12,7 +12,6 @@ class SearchPopup extends Component {
     super(props);
     this.state = {open: false};
 
-    injectTapEventPlugin();
   }
 
   handleOpen = () => {
@@ -28,13 +27,13 @@ class SearchPopup extends Component {
       <FlatButton
         label="Cancel"
         primary={true}
-        onTouchTap={this.handleClose}
+        onClick={this.handleClose}
       />,
       <FlatButton
         label="Submit"
         primary={true}
         keyboardFocused={true}
-        onTouchTap={this.handleClose}
+        onClick={this.handleClose}
       />,
     ];
 
