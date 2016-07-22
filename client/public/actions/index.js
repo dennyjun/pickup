@@ -119,3 +119,54 @@ export function submitPlayer(playerObj) {
       });
   }
 }
+
+export function loginUser(credentials) {
+  let config = {
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `username=${credentials.username}&password=${credentials.password}`
+  };
+
+  const login = axios.post('/api/users/login', config);
+
+  // Need endpoint for getting session
+  const getToken = axios.post(/* endpoi,*/ config);
+
+  function requestLogin(credentials) {
+    return {
+      type: 'LOGIN_REQUEST',
+      fetching: true,
+      authenticated: false,
+      credentials: credentials
+    }
+  };
+
+  function receiveLogin(user) {
+    return {
+      type: 'LOGIN_SUCCESS',
+      fetching: false,
+      authenticated: true,
+      token: user.token
+    }
+  };
+
+  function failLogin(message) {
+    return {
+      type: 'LOGIN_FAILURE',
+      fetching: false,
+      authenticated: false,
+      message: message
+    }
+  };
+
+  return (dispatch) => { 
+    dispatch(requestLogin(credentials));
+
+    return login
+    .then((token) => {
+      token.json()
+      .then((user) => {
+        console.log(user);
+      })
+    });
+  }
+}
