@@ -3,6 +3,10 @@ import { Link } from 'react-router';
 import { browserHistory } from 'react-router';
 
 export default class Signup extends Component {
+  constructor(props) {
+    super(props);
+    console.log(this.props);
+  }
 
   handleSubmit(event) {
     // event.preventDefault();

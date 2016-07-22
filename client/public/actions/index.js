@@ -126,10 +126,10 @@ export function loginUser(credentials) {
     body: `username=${credentials.username}&password=${credentials.password}`
   };
 
-  const login = axios.post('/api/user/login', config);
+  const login = axios.post('/api/users/login', config);
 
   // Need endpoint for getting session
-  const getSession = axios.post(/* endpoint for getting session,*/ config);
+  const getToken = axios.post(/* endpoi,*/ config);
 
   function requestLogin(credentials) {
     return {
@@ -144,10 +144,8 @@ export function loginUser(credentials) {
     return {
       type: 'LOGIN_SUCCESS',
       fetching: false,
-      authenticated: true /*,
-      need to update with correct vars for user.id
-      token: user.id_token
-      */
+      authenticated: true,
+      token: user.token
     }
   };
 
@@ -160,14 +158,15 @@ export function loginUser(credentials) {
     }
   };
 
-  // return (dispatch) => { 
-  //   dispatch(requestLogin(credentials));
+  return (dispatch) => { 
+    dispatch(requestLogin(credentials));
 
-  //   return getSession
-  //   .then(response => {
-  //     response.json()
-  //     .then(user =>)
-  //   });
-
-  // }
+    return login
+    .then((token) => {
+      token.json()
+      .then((user) => {
+        console.log(user);
+      })
+    });
+  }
 }

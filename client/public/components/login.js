@@ -1,7 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import Signup from './signup';
+import axios from 'axios';
 
 export default class Login extends Component {
+  constructor(props) {
+    super(props);
+    console.log(this.props);
+  }
 
   handleSubmit(event) {
     event.preventDefault();
@@ -14,7 +19,10 @@ export default class Login extends Component {
     }
 
     console.log('Clicking working!', credentials);
-
+    axios.post('/api/users/login', credentials)
+    .then((resp) => {
+      console.log(resp);
+    })
   }
 
   render() {

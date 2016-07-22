@@ -21,7 +21,7 @@ const createStoreWithMiddleWare = applyMiddleware(thunk)(createStore)(reducer);
 const router = (
     <Provider store={createStoreWithMiddleWare}>
       <Router history={browserHistory}>
-        <Route path="/" component={Signup} >
+        <Route path="/" component={Login} >
           <Route path="/signup" component={Signup} />
           <IndexRoute component={Search} />
           <Route path="/Search" component={Search} />
