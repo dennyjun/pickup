@@ -4,6 +4,7 @@ import path from 'path';
 import { Link } from 'react-router';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import SearchPopup from './searchPopup.js';
+import Radius from './radius.js'
 
 class NavBar extends Component {
   constructor(props) {
@@ -17,11 +18,15 @@ class NavBar extends Component {
           <div className="nav-wrapper red">
             <div className="brand-logo">PickUp</div>
             <ul className="right hide-on-med-and-down">
-              <li><Link to="/SearchHome">MAP</Link></li>
-              <li><Link to="/Add">ADD</Link></li>
+              <li>
+                <Radius />
+              </li>
               <li>
                 <SearchPopup />
               </li>
+              <li><Link to="/Add">ADD</Link></li>
+              <li><Link to="/#">LOG OUT</Link></li>
+              
             </ul>
           </div>
         </nav>

@@ -81,7 +81,6 @@ render() {
 
 
             <form className="inputBox" onSubmit={this.onLocationSubmit.bind(this)}>
-
               <div className="col s6 offset-s3 center-align">
                 <input value={this.state.locationInput} onChange={this.onLocationEnter.bind(this)} type='text' placeholder='Enter City Name'/>
               </div>
