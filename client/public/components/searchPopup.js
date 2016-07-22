@@ -51,9 +51,9 @@ class SearchPopup extends Component {
 
           <form>
             <input type="text" placeholder="Enter City Name" />
-            <input className="btn red waves-effect waves-light btn valign center-block" value="Search" type="submit" onClick={this.handleClose}/>
+            <input className="btn red waves-effect waves-light valign center-block" value="Search" type="submit" onClick={this.handleClose}/>
             <span> </span>
-            <button className="btn red waves-effect waves-light btn valign center-block" onClick={this.handleClose}>Cancel</button>
+            <input className="btn red waves-effect waves-light valign center-block" value="Cancel" type="button" onClick={this.handleClose} />
           </form>
         </Dialog>
 
