@@ -15,8 +15,12 @@ import EventListHome from './public/containers/eventListHome'
 import SearchHome from './public/containers/searchHome'
 import Login from './public/components/login'
 import Signup from './public/components/signup'
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
 
 const createStoreWithMiddleWare = applyMiddleware(thunk)(createStore)(reducer);
+
+injectTapEventPlugin();
 
 const router = (
     <Provider store={createStoreWithMiddleWare}>
