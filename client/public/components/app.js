@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import SearchHome from '../containers/searchHome';
+import FindCreate from './findCreate.js';
 
 export default class App extends Component {
 
@@ -10,9 +11,9 @@ export default class App extends Component {
         <h1 className="center-align">PickUp</h1>
         <div className="valign-wrapper">
           <div className="valign center-block">
-            <button className="btn waves-effect waves-light btn"><Link to="/Search" className="linkFont">Find</Link></button>
-            <span> </span>
-            <button className="btn waves-effect waves-light btn"><Link to="/Add" className="linkFont">Create</Link></button>
+
+            <FindCreate />
+
           </div>
         </div>
 

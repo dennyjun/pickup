@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import $ from 'jquery';
 import path from 'path';
 import { Link } from 'react-router';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import SearchPopup from './searchPopup.js';
 
 class NavBar extends Component {
   constructor(props) {
@@ -17,7 +19,9 @@ class NavBar extends Component {
             <ul className="right hide-on-med-and-down">
               <li><Link to="/SearchHome">MAP</Link></li>
               <li><Link to="/Add">ADD</Link></li>
-              <li><Link to="/">SEARCH BAR</Link></li>
+              <li>
+                <SearchPopup />
+              </li>
             </ul>
           </div>
         </nav>
