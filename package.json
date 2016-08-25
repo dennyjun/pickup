@@ -4,6 +4,8 @@
   "description": "",
   "main": "./client/index.js",
   "scripts": {
+    "build": "webpack --display-error-details",
+    "postinstall": "npm run build",
     "webpack-watch": "./node_modules/webpack/bin/webpack.js -w",
     "webpack": "./node_modules/webpack/bin/webpack.js",
     "express-server": "nodemon ./server/server.js",
