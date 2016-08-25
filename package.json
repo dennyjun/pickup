@@ -14,6 +14,10 @@
   },
   "dependencies": {
     "axios": "^0.12.0",
+    "babel-core": "^6.10.4",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.11.1",
     "babel-plugin-transform-class-properties": "^6.10.2",
     "babel-plugin-transform-runtime": "^6.9.0",
     "babel-polyfill": "^6.9.1",
@@ -24,7 +28,6 @@
     "babel-runtime": "^6.9.2",
     "bcrypt": "^0.8.7",
     "body-parser": "^1.15.2",
-    "concurrently": "^2.2.0",
     "cookie-parser": "^1.4.3",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
@@ -42,6 +45,7 @@
     "path": "^0.12.7",
     "promise": "^7.1.1",
     "q": "^1.4.1",
+    "react-loader": "^2.4.0",
     "react": "^15.2.0",
     "react-dom": "^15.2.0",
     "react-geosuggest": "^1.24.1",
@@ -58,16 +62,11 @@
     "request": "^2.72.0",
     "response-time": "^2.3.1",
     "sequelize": "^3.23.4",
-    "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.14.1"
+    "webpack": "^1.13.1"
   },
   "devDependencies": {
-    "babel-core": "^6.10.4",
-    "babel-loader": "^6.2.4",
-    "babel-preset-es2015": "^6.9.0",
-    "babel-preset-react": "^6.11.1",
     "concurrently": "^2.2.0",
-    "react-loader": "^2.4.0"
+    "webpack-dev-server": "^1.14.1"
   },
   "engines": {
     "node": "6.1.0",
