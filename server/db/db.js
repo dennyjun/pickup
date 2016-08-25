@@ -1,6 +1,8 @@
 module.exports = (() => {
   let Sequelize = require('sequelize');
-  require('dotenv').config();
+  if(!process.env.NODE_ENV || process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+  }
   return new Sequelize(
     process.env.DB_NAME, 
     process.env.DB_USERNAME, 

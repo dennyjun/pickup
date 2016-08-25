@@ -26,16 +26,16 @@ const router = (
     <Provider store={createStoreWithMiddleWare}>
       <Router history={browserHistory}>
         <Route path="/" component={App} >
-          <Route path="/signup" component={Signup} />
           <IndexRoute component={Search} />
           <Route path="/Search" component={Search} />
           <Route path="/Add" component={Add} />
-          <Route path="/login" component={Login} />
         </Route>   
         <Route path="/NavBar" component={NavBar} >
           <Route path="/SearchHome" component={SearchHome} />
           <Route path="/EventListHome" component={EventListHome} />
         </Route>
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={Signup} />
       </Router>
     </Provider>
 )

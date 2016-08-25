@@ -35,7 +35,7 @@ app.use((req, res, next) => {
 app.use(express.static(__dirname + '/../client'));
 
 router(app, publicControllers).init();
-router(app, privateControllers).initSecured();
+router(app, privateControllers).init();
 
 // require('./models/usersModel.js').create({
 //   name: 'denny'
