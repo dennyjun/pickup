@@ -3,7 +3,9 @@ const User = require('../models/usersModel');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const LocalStrategy = require('passport-local');
-require('dotenv').config();
+if(!process.env.NODE_ENV || process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 const authHelper = require('../helperFunctions/authHelper.js');
 
 // Create local JWT strategy
