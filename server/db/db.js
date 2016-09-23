@@ -9,7 +9,9 @@ module.exports = (() => {
     process.env.DB_PASSWORD, {
       host: process.env.DB_HOST,
       port: process.env.DB_PORT,
-      dialect: process.env.DB_DIALECT
+      dialect: process.env.DB_DIALECT,
+      // SQLite only
+      storage: 'server/db/pickup.sqlite'
     }
   );
 })();
