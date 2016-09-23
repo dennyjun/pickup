@@ -11,3 +11,5 @@ client/dist
 npm-debug.log
 
 .DS_Store
+
+server/db/pickup.sqlite
